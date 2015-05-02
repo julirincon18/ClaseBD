@@ -1,0 +1,30 @@
+USE [Juliana]
+GO
+
+/****** Object:  Table [dbo].[CLIENTES]    Script Date: 02/05/2015 01:36:43 p.m. ******/
+
+CREATE TABLE [dbo].[CLIENTES](
+	[CustomerID] [int] IDENTITY(1,1) NOT NULL,
+	[PrimerNombre] [nchar](50) NOT NULL,
+	[SegundoNombre] [nchar](50) NULL,
+	[Apellidos] [nchar](50) NOT NULL,
+	[NombreCompleto] [nchar](150) NULL,
+	[Telefono] [nchar](25) NULL,
+	[Direccion] [nchar](60) NULL,
+	[Ciudad] [nchar](30) NOT NULL,
+	[FechaCreacion] [datetime] NOT NULL,
+	[FechaModificacion] [datetime] NOT NULL,
+ CONSTRAINT [PK_CLIENTES] PRIMARY KEY CLUSTERED 
+(
+	[CustomerID] ASC
+) ON [DATOS]
+) ON [DATOS]
+
+GO
+
+ALTER TABLE [dbo].[CLIENTES] ADD  CONSTRAINT [DF_CLIENTES_FechaCreacion]  DEFAULT (getdate()) FOR [FechaCreacion]
+GO
+
+ALTER TABLE [dbo].[CLIENTES] ADD  CONSTRAINT [DF_CLIENTES_FechaModificacion]  DEFAULT (getdate()) FOR [FechaModificacion]
+GO
+
