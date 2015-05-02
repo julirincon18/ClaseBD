@@ -1,0 +1,37 @@
+USE Juliana
+GO
+
+INSERT [dbo].[CLIENTES]
+SELECT	PPE.FirstName
+		, PPE.MiddleName
+		, PPE.LastName
+		, CONCAT([FirstName],' ',[MiddleName],' ',[LastName]) AS NombreCompleto
+		, PPH.PhoneNumber
+		, PA.AddressLine1
+		, PA.City
+		, GETDATE() as [FechaCreacion]
+		, getdate() as [FechaModificacion]
+FROM	[AdventureWorks2012].[Person].[Person] AS PPE
+		INNER JOIN [AdventureWorks2012].[Person].[PersonPhone] AS PPH ON PPE.BusinessEntityID = PPH.BusinessEntityID
+		INNER JOIN [AdventureWorks2012].[Person].[BusinessEntityAddress] AS PPA ON PPE.BusinessEntityID = PPA.BusinessEntityID
+		INNER JOIN [AdventureWorks2012].[Person].[Address] AS PA ON PPA.AddressID = PA.AddressID
+		
+		
+		DE ESTA MANERA PUEDO HACER EL TRASLADO DE LOS PRODUCTOS DE LA TABLA PRODUCTOS A LA TABLA PRODUCT_ESPECIAL
+		
+		INSERT [dbo].[CLIENTES]
+SELECT	PPE.FirstName
+		, PPE.MiddleName
+		, PPE.LastName
+		, CONCAT([FirstName],' ',[MiddleName],' ',[LastName]) AS NombreCompleto
+		, PPH.PhoneNumber
+		, PA.AddressLine1
+		, PA.City
+		, 9 AS CUSTOMER_GROUP_ID --> COMO NO LO TENGO EN NINGUNA PARTE DEBO AGREGARLO
+		, (PRECIO*0.25) AS PRODUCT_SPECIAL --> ESTE NOMBRE PRECIO ESPECIAL DEBE COINCIDIR CON EL NOMBRE EN LA TABLA
+		, GETDATE() as [FechaCreacion]
+		, getdate() as [FechaModificacion]
+FROM	[AdventureWorks2012].[Person].[Person] AS PPE
+		INNER JOIN [AdventureWorks2012].[Person].[PersonPhone] AS PPH ON PPE.BusinessEntityID = PPH.BusinessEntityID
+		INNER JOIN [AdventureWorks2012].[Person].[BusinessEntityAddress] AS PPA ON PPE.BusinessEntityID = PPA.BusinessEntityID
+		INNER JOIN [AdventureWorks2012].[Person].[Address] AS PA ON PPA.AddressID = PA.AddressID
