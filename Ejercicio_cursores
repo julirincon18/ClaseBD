@@ -1,0 +1,43 @@
+/*
+Construya un cursor, que permita leer (PRINT) el detalle de los pedidos
+y calcule por pantalla el valor bruto de la venta asociada al producto.
+
+Resultado esperado: 
+
+Producto	Valor Bruto
+XXXXX		###.####
+XXXXX		###.####
+XXXXX		###.####
+XXXXX		###.####
+XXXXX		###.####
+*/
+
+Use Norte
+go
+
+Declare @strNombreProducto nvarchar(40), @monValrBruto as Money
+DECLARE Cur_Pedidos CURSOR FORWARD_ONLY READ_ONLY FOR 
+--coalesce -> Reemplaza nulos por el valor que indique (Ojo mismo tipo)
+SELECT 
+	P.Nombre, 
+	COALESCE((PD.Cantidad * PD.PrecioUnd),0) AS Valor_Bruto
+FROM [dbo].[Pedidos_Detalles] PD 
+	INNER JOIN [dbo].[Productos] P
+	ON PD.IdProducto = P.IdProducto
+-- Abre cursor en memoria
+PRINT 'Producto	Valor Bruto'
+OPEN Cur_Pedidos
+-- Asigna primera fila a variables
+FETCH NEXT FROM Cur_Pedidos INTO @strNombreProducto, @monValrBruto
+-- Pregunta si se puede recorrer
+WHILE @@FETCH_STATUS = 0
+-- Inicio de lógica
+BEGIN
+	PRINT @strNombreProducto + '    ' + CAST(@monValrBruto AS VARCHAR)
+ -- Asigne nuevo registro a variables	
+ FETCH NEXT FROM Cur_Pedidos INTO @strNombreProducto, @monValrBruto 
+END 
+-- Cierra la instrucción pero NO la retira de memoria
+CLOSE Cur_Pedidos
+-- Retira de memoria el cursor
+DEALLOCATE Cur_Pedidos
